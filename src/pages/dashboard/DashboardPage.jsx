@@ -364,6 +364,38 @@ function StreamCard({
   );
 }
 
+
+function RevenueMixTooltip({
+  active,
+  payload,
+}) {
+  if (
+    !active ||
+    !payload ||
+    payload.length === 0
+  ) {
+    return null;
+  }
+
+  const item = payload[0]?.payload;
+
+  if (!item) {
+    return null;
+  }
+
+  return (
+    <div className="dashboard-donut-tooltip">
+      <span>{item.name}</span>
+      <strong>
+        {formatCurrency(item.revenue)}
+      </strong>
+      <small>
+        {formatPercent(item.contribution)}
+      </small>
+    </div>
+  );
+}
+
 export default function DashboardPage() {
   const leasingRecords = Array.isArray(leasingSource.records)
     ? leasingSource.records
@@ -596,14 +628,14 @@ export default function DashboardPage() {
             <div className="saas-panel-heading">
               <div>
                 <span className="saas-panel-kicker">
-                  Performance
+                  Schools
                 </span>
 
-                <h2>Monthly revenue</h2>
+                <h2>Performance by school</h2>
 
                 <p>
-                  Combined commercial revenue and school
-                  income from September to August.
+                  Commercial revenue and school income by
+                  school.
                 </p>
               </div>
 
@@ -612,15 +644,15 @@ export default function DashboardPage() {
               </span>
             </div>
 
-            <div className="dashboard-line-container">
+            <div className="dashboard-chart-container dashboard-school-chart-container">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  data={monthlyData}
+                <BarChart
+                  data={schoolData}
                   margin={{
-                    top: 14,
-                    right: 18,
-                    left: 4,
-                    bottom: 4,
+                    top: 12,
+                    right: 10,
+                    left: 2,
+                    bottom: 24,
                   }}
                 >
                   <CartesianGrid
@@ -630,8 +662,9 @@ export default function DashboardPage() {
                   />
 
                   <XAxis
-                    dataKey="label"
-                    tick={{ fontSize: 11 }}
+                    dataKey="school"
+                    tick={{ fontSize: 10 }}
+                    interval={0}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -657,26 +690,20 @@ export default function DashboardPage() {
 
                   <Legend />
 
-                  <Line
-                    type="monotone"
+                  <Bar
                     dataKey="revenue"
                     name="Commercial Revenue"
-                    stroke="#111827"
-                    strokeWidth={2.5}
-                    dot={false}
-                    activeDot={{ r: 4 }}
+                    fill="#111827"
+                    radius={[5, 5, 0, 0]}
                   />
 
-                  <Line
-                    type="monotone"
+                  <Bar
                     dataKey="income"
                     name="School Income"
-                    stroke="#7c3aed"
-                    strokeWidth={2.5}
-                    dot={false}
-                    activeDot={{ r: 4 }}
+                    fill="#8b5cf6"
+                    radius={[5, 5, 0, 0]}
                   />
-                </LineChart>
+                </BarChart>
               </ResponsiveContainer>
             </div>
           </article>
@@ -749,27 +776,27 @@ export default function DashboardPage() {
             <div className="saas-panel-heading">
               <div>
                 <span className="saas-panel-kicker">
-                  Schools
+                  Performance
                 </span>
 
-                <h2>Performance by school</h2>
+                <h2>Monthly revenue</h2>
 
                 <p>
-                  Commercial revenue and school income by
-                  school.
+                  Combined commercial revenue and school
+                  income from September to August.
                 </p>
               </div>
             </div>
 
-            <div className="dashboard-chart-container">
+            <div className="dashboard-line-container">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={schoolData}
+                <LineChart
+                  data={monthlyData}
                   margin={{
-                    top: 12,
-                    right: 10,
-                    left: 2,
-                    bottom: 24,
+                    top: 14,
+                    right: 18,
+                    left: 4,
+                    bottom: 4,
                   }}
                 >
                   <CartesianGrid
@@ -779,9 +806,8 @@ export default function DashboardPage() {
                   />
 
                   <XAxis
-                    dataKey="school"
-                    tick={{ fontSize: 10 }}
-                    interval={0}
+                    dataKey="label"
+                    tick={{ fontSize: 11 }}
                     axisLine={false}
                     tickLine={false}
                   />
@@ -800,25 +826,33 @@ export default function DashboardPage() {
                     contentStyle={{
                       borderRadius: 10,
                       border: "1px solid #e5e7eb",
+                      boxShadow:
+                        "0 12px 30px rgba(15, 23, 42, 0.10)",
                     }}
                   />
 
                   <Legend />
 
-                  <Bar
+                  <Line
+                    type="monotone"
                     dataKey="revenue"
                     name="Commercial Revenue"
-                    fill="#111827"
-                    radius={[5, 5, 0, 0]}
+                    stroke="#111827"
+                    strokeWidth={2.5}
+                    dot={false}
+                    activeDot={{ r: 4 }}
                   />
 
-                  <Bar
+                  <Line
+                    type="monotone"
                     dataKey="income"
                     name="School Income"
-                    fill="#8b5cf6"
-                    radius={[5, 5, 0, 0]}
+                    stroke="#7c3aed"
+                    strokeWidth={2.5}
+                    dot={false}
+                    activeDot={{ r: 4 }}
                   />
-                </BarChart>
+                </LineChart>
               </ResponsiveContainer>
             </div>
           </article>
@@ -857,9 +891,16 @@ export default function DashboardPage() {
                   </Pie>
 
                   <Tooltip
-                    formatter={(value) =>
-                      formatCurrency(value)
-                    }
+                    content={<RevenueMixTooltip />}
+                    position={{ x: 6, y: 6 }}
+                    allowEscapeViewBox={{
+                      x: true,
+                      y: true,
+                    }}
+                    wrapperStyle={{
+                      pointerEvents: "none",
+                      zIndex: 5,
+                    }}
                   />
                 </PieChart>
               </ResponsiveContainer>
