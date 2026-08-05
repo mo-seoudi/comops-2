@@ -333,6 +333,167 @@ function StreamCard({
   colour,
 }) {
   return (
+    <Link
+      to={path}
+      className="dashboard-stream-card"
+      style={{ "--stream-colour": colour }}
+    >
+      <div className="dashboard-stream-heading">
+        <div>
+          <span>{title}</span>
+          <p>{description}</p>
+        </div>
+
+        <span className="dashboard-stream-arrow">→</span>
+      </div>
+
+      <strong>{formatCurrency(revenue)}</strong>
+
+      <div className="dashboard-stream-meta">
+        <span>School income</span>
+        <b>{formatCurrency(income)}</b>
+      </div>
+
+      <div className="dashboard-stream-contribution">
+        <span>{formatPercent(contribution)} of total revenue</span>
+        <div>
+          <i style={{ width: `${Math.min(contribution, 100)}%` }} />
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+export default function DashboardPage() {
+  const leasingRecords = Array.isArray(leasingSource.records)
+    ? leasingSource.records
+    : [];
+
+  const cateringRecords = Array.isArray(cateringSource.records)
+    ? cateringSource.records
+    : [];
+
+  const uniformRecords = Array.isArray(uniformSource.records)
+    ? uniformSource.records
+    : [];
+
+  const academicYears = useMemo(
+    () =>
+      unique([
+        ...leasingRecords.map((record) => record.academicYear),
+        ...cateringRecords.map((record) => record.academicYear),
+        ...uniformRecords.map((record) => record.academicYear),
+      ]).sort((a, b) => b.localeCompare(a)),
+    [leasingRecords, cateringRecords, uniformRecords],
+  );
+
+  const [academicYear, setAcademicYear] = useState(() =>
+    getLatestAcademicYear(academicYears),
+  );
+
+  const filteredLeasing = useMemo(
+    () =>
+      leasingRecords.filter(
+        (record) => !academicYear || record.academicYear === academicYear,
+      ),
+    [academicYear, leasingRecords],
+  );
+
+  const filteredCatering = useMemo(
+    () =>
+      cateringRecords.filter(
+        (record) =>
+          (!academicYear || record.academicYear === academicYear) &&
+          record.scenario === "Actual",
+      ),
+    [academicYear, cateringRecords],
+  );
+
+  const filteredUniform = useMemo(
+    () =>
+      uniformRecords.filter(
+        (record) =>
+          (!academicYear || record.academicYear === academicYear) &&
+          record.scenario === "Actual",
+      ),
+    [academicYear, uniformRecords],
+  );
+
+  const streamData = useMemo(() => {
+    const leasing = getLeasingSummary(filteredLeasing);
+    const catering = getSalesCommissionSummary(filteredCatering);
+    const uniform = getSalesCommissionSummary(filteredUniform);
+
+    const result = [
+      {
+        name: "Leasing",
+        description: "Programmes and facility income",
+        path: "/leasing/programmes",
+        ...leasing,
+      },
+      {
+        name: "Catering",
+        description: "Food-service sales and commission",
+        path: "/catering",
+        ...catering,
+      },
+      {
+        name: "Uniform",
+        description: "Uniform sales and commission",
+        path: "/uniform",
+        ...uniform,
+      },
+    ];
+
+    const totalRevenue = result.reduce(
+      (sum, item) => sum + item.revenue,
+      0,
+    );
+
+    return result.map((item) => ({
+      ...item,
+      contribution:
+        totalRevenue > 0 ? (item.revenue / totalRevenue) * 100 : 0,
+    }));
+  }, [filteredLeasing, filteredCatering, filteredUniform]);
+
+  const totalRevenue = streamData.reduce(
+    (sum, item) => sum + item.revenue,
+    0,
+  );
+
+  const totalIncome = streamData.reduce(
+    (sum, item) => sum + item.income,
+    0,
+  );
+
+  const schoolData = useMemo(
+    () =>
+      buildSchoolData({
+        leasingRecords: filteredLeasing,
+        cateringRecords: filteredCatering,
+        uniformRecords: filteredUniform,
+      }),
+    [filteredLeasing, filteredCatering, filteredUniform],
+  );
+
+  const monthlyData = useMemo(
+    () =>
+      buildMonthlyTrend({
+        leasingRecords: filteredLeasing,
+        cateringRecords: filteredCatering,
+        uniformRecords: filteredUniform,
+      }),
+    [filteredLeasing, filteredCatering, filteredUniform],
+  );
+
+  const contractHealth = useMemo(() => getContractHealth(), []);
+
+  const schoolsCount = unique(
+    schoolData.map((item) => item.school),
+  ).length;
+
+  return (
     <section className="commercial-dashboard-page">
       <header className="dashboard-page-header">
         <div>
