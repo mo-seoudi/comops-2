@@ -1,3 +1,6 @@
+//src/pages/dashboard/DashboardPage.jsx
+
+
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -527,49 +530,34 @@ export default function DashboardPage() {
 
   return (
     <section className="commercial-dashboard-page">
-      <header className="dashboard-page-header">
-        <div>
-          <span className="dashboard-kicker">
-            Commercial workspace
-          </span>
+      <div className="dashboard-toolbar">
+        <div className="dashboard-period-filter">
+          <label htmlFor="dashboard-academic-year">
+            Academic year
+          </label>
 
-          <h1>Overview</h1>
-
-          <p>
-            Revenue, school income and contract performance
-            across your commercial operations.
-          </p>
-        </div>
-
-        <div className="dashboard-header-actions">
-          <div className="dashboard-period-filter">
-            <label htmlFor="dashboard-academic-year">
-              Academic year
-            </label>
-
-            <select
-              id="dashboard-academic-year"
-              value={academicYear}
-              onChange={(event) =>
-                setAcademicYear(event.target.value)
-              }
-            >
-              {academicYears.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <button
-            type="button"
-            className="dashboard-secondary-action"
+          <select
+            id="dashboard-academic-year"
+            value={academicYear}
+            onChange={(event) =>
+              setAcademicYear(event.target.value)
+            }
           >
-            Export
-          </button>
+            {academicYears.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
         </div>
-      </header>
+
+        <button
+          type="button"
+          className="dashboard-secondary-action"
+        >
+          Export
+        </button>
+      </div>
 
       <section className="dashboard-overview-strip">
         <article className="dashboard-primary-metric">
