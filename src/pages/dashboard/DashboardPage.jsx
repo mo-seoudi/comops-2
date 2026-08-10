@@ -426,12 +426,17 @@ export default function DashboardPage() {
     getLatestAcademicYear(academicYears),
   );
 
+  const [schoolFilter, setSchoolFilter] = useState("");
+
   const filteredLeasing = useMemo(
     () =>
       leasingRecords.filter(
-        (record) => !academicYear || record.academicYear === academicYear,
+        (record) =>
+          (!academicYear || record.academicYear === academicYear) &&
+          (!schoolFilter ||
+            getSchoolLabel(record.school) === schoolFilter),
       ),
-    [academicYear, leasingRecords],
+    [academicYear, schoolFilter, leasingRecords],
   );
 
   const filteredCatering = useMemo(
@@ -439,9 +444,12 @@ export default function DashboardPage() {
       cateringRecords.filter(
         (record) =>
           (!academicYear || record.academicYear === academicYear) &&
+          (!schoolFilter ||
+            getSchoolLabel(record.schoolName || record.school) ===
+              schoolFilter) &&
           record.scenario === "Actual",
       ),
-    [academicYear, cateringRecords],
+    [academicYear, schoolFilter, cateringRecords],
   );
 
   const filteredUniform = useMemo(
@@ -449,9 +457,12 @@ export default function DashboardPage() {
       uniformRecords.filter(
         (record) =>
           (!academicYear || record.academicYear === academicYear) &&
+          (!schoolFilter ||
+            getSchoolLabel(record.schoolName || record.school) ===
+              schoolFilter) &&
           record.scenario === "Actual",
       ),
-    [academicYear, uniformRecords],
+    [academicYear, schoolFilter, uniformRecords],
   );
 
   const streamData = useMemo(() => {
@@ -531,7 +542,7 @@ export default function DashboardPage() {
   return (
     <section className="commercial-dashboard-page">
       <div className="dashboard-toolbar">
-        <div className="dashboard-period-filter">
+        <div className="dashboard-filter-control">
           <label htmlFor="dashboard-academic-year">
             Academic year
           </label>
@@ -548,6 +559,34 @@ export default function DashboardPage() {
                 {year}
               </option>
             ))}
+          </select>
+        </div>
+
+        <div className="dashboard-filter-control">
+          <label htmlFor="dashboard-school">
+            School
+          </label>
+
+          <select
+            id="dashboard-school"
+            value={schoolFilter}
+            onChange={(event) =>
+              setSchoolFilter(event.target.value)
+            }
+          >
+            <option value="">All Schools</option>
+            <option value="Repton Dubai">
+              Repton Dubai
+            </option>
+            <option value="Repton Al Barsha">
+              Repton Al Barsha
+            </option>
+            <option value="Repton Fry">
+              Repton Fry
+            </option>
+            <option value="Repton Rose">
+              Repton Rose
+            </option>
           </select>
         </div>
 
