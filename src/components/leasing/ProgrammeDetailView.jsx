@@ -351,6 +351,11 @@ export default function ProgrammeDetailView({
     }));
   }
 
+  const matrixGridTemplate =
+    viewMode === "monthly"
+      ? "110px repeat(12, 60px) 100px"
+      : "118px repeat(3, minmax(92px, 1fr)) 104px";
+
   return (
     <section className="programme-detail-option2">
       <header className="programme-detail-option2-header">
@@ -464,58 +469,69 @@ export default function ProgrammeDetailView({
       <div
         className={
           viewMode === "monthly"
-            ? "programme-detail-option2-table-wrap monthly"
-            : "programme-detail-option2-table-wrap"
+            ? "programme-detail-option2-matrix-wrap monthly"
+            : "programme-detail-option2-matrix-wrap termly"
         }
       >
-        <table className="programme-detail-option2-table">
-          <colgroup>
-            <col className="programme-detail-option2-measure-col" />
+        <div
+          className="programme-detail-option2-matrix"
+          style={{
+            gridTemplateColumns: matrixGridTemplate,
+          }}
+        >
+          <div className="programme-detail-option2-matrix-header label">
+            Measure
+          </div>
 
-            {displayedPeriods.map((period) => (
-              <col
-                key={`col-${period.period}`}
-                className="programme-detail-option2-period-col"
-              />
-            ))}
+          {displayedPeriods.map((period) => (
+            <div
+              key={`header-${period.period}`}
+              className="programme-detail-option2-matrix-header"
+            >
+              {period.label}
+            </div>
+          ))}
 
-            <col className="programme-detail-option2-total-col" />
-          </colgroup>
+          <div className="programme-detail-option2-matrix-header total-header">
+            Total
+          </div>
 
-          <thead>
-            <tr>
-              <th>Measure</th>
-              {displayedPeriods.map((period) => (
-                <th key={period.period}>{period.label}</th>
-              ))}
-              <th>Total</th>
-            </tr>
-          </thead>
+          {MEASURES.flatMap((measure) => {
+            const rowClass = measure.emphasis
+              ? " emphasis"
+              : "";
 
-          <tbody>
-            {MEASURES.map((measure) => (
-              <tr
-                key={measure.key}
-                className={measure.emphasis ? "emphasis" : ""}
+            return [
+              <div
+                key={`label-${measure.key}`}
+                className={`programme-detail-option2-matrix-label${rowClass}`}
               >
-                <th>{measure.label}</th>
+                {measure.label}
+              </div>,
 
-                {displayedPeriods.map((period) => (
-                  <td key={`${measure.key}-${period.period}`}>
-                    {formatPeriodValue(
-                      period[measure.key],
-                      viewMode
-                    )}
-                  </td>
-                ))}
+              ...displayedPeriods.map((period) => (
+                <div
+                  key={`${measure.key}-${period.period}`}
+                  className={`programme-detail-option2-matrix-value${rowClass}`}
+                >
+                  {formatPeriodValue(
+                    period[measure.key],
+                    viewMode
+                  )}
+                </div>
+              )),
 
-                <td className="total">
-                  {formatDisplayValue(totals[measure.key])}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              <div
+                key={`total-${measure.key}`}
+                className={`programme-detail-option2-matrix-value total${rowClass}`}
+              >
+                {formatDisplayValue(
+                  totals[measure.key]
+                )}
+              </div>,
+            ];
+          })}
+        </div>
       </div>
 
       <div className="programme-detail-option2-mobile">

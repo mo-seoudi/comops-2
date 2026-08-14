@@ -669,24 +669,26 @@
 }
 
 
+
 /* =========================================================
-   OPTION 2 - GRID MATRIX
-   Replaces the desktop/tablet HTML table with one deterministic
-   CSS grid. Headers and values therefore use exactly the same
-   column tracks and cannot drift out of alignment.
+   OPTION 2 - RESULTS MATRIX (RESTORED)
+   All headers and values are direct children of one CSS grid.
+   This guarantees exact vertical alignment and keeps the
+   results visible in both Termly and Monthly modes.
    ========================================================= */
 
 .programme-detail-option2 {
   width: min(100%, 760px);
 }
 
-/* Hide the old table implementation if older rules remain. */
+/* The legacy HTML table is no longer used. */
 .programme-detail-option2-table-wrap,
 .programme-detail-option2-table {
   display: none !important;
 }
 
 .programme-detail-option2-matrix-wrap {
+  display: block !important;
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
@@ -695,7 +697,7 @@
   border-radius: 11px;
   background: #fafafa;
   scrollbar-width: thin;
-  scrollbar-color: #c7c7c7 transparent;
+  scrollbar-color: #bdbdbd transparent;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -710,26 +712,25 @@
 .programme-detail-option2-matrix-wrap::-webkit-scrollbar-thumb {
   border: 2px solid #fafafa;
   border-radius: 999px;
-  background: #c7c7c7;
+  background: #bdbdbd;
 }
 
 .programme-detail-option2-matrix {
-  display: grid;
+  display: grid !important;
+  grid-auto-flow: row;
   width: 100%;
-  min-width: 0;
   column-gap: 0;
   row-gap: 4px;
   align-items: stretch;
 }
 
-/* Termly is deliberately concise and fills only what is useful. */
+/* Termly stays compact. */
 .programme-detail-option2-matrix-wrap.termly
   .programme-detail-option2-matrix {
-  width: 100%;
-  min-width: 560px;
+  min-width: 548px;
 }
 
-/* Monthly uses small equal-width month tracks and scrolls internally. */
+/* Monthly uses equal month tracks and scrolls only inside this area. */
 .programme-detail-option2-matrix-wrap.monthly
   .programme-detail-option2-matrix {
   width: 930px;
@@ -738,8 +739,8 @@
 
 .programme-detail-option2-matrix-header {
   display: flex;
-  min-width: 0;
   height: 28px;
+  min-width: 0;
   align-items: center;
   justify-content: center;
   padding: 0 5px;
@@ -760,17 +761,11 @@
   color: #525252;
 }
 
-.programme-detail-option2-matrix-row {
-  display: grid;
-  min-width: 0;
-  min-height: 34px;
-  align-items: stretch;
-}
-
 .programme-detail-option2-matrix-label,
 .programme-detail-option2-matrix-value {
   display: flex;
   min-width: 0;
+  min-height: 34px;
   align-items: center;
   border-top: 1px solid #eeeeee;
   border-bottom: 1px solid #eeeeee;
@@ -793,9 +788,9 @@
   padding: 0 5px;
   color: #525252;
   font-size: 9px;
-  font-variant-numeric: tabular-nums;
   text-align: center;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .programme-detail-option2-matrix-value.total {
@@ -807,22 +802,19 @@
   font-weight: 750;
 }
 
-.programme-detail-option2-matrix-row.emphasis
-  .programme-detail-option2-matrix-label,
-.programme-detail-option2-matrix-row.emphasis
-  .programme-detail-option2-matrix-value {
+.programme-detail-option2-matrix-label.emphasis,
+.programme-detail-option2-matrix-value.emphasis {
   border-color: #ebe7fb;
   background: #faf9ff;
   color: #171717;
   font-weight: 700;
 }
 
-.programme-detail-option2-matrix-row.emphasis
-  .programme-detail-option2-matrix-value.total {
+.programme-detail-option2-matrix-value.total.emphasis {
   background: #ede9fe;
 }
 
-/* Slightly more concise KPI strip to match the financial matrix. */
+/* Keep the top summary concise. */
 .programme-detail-option2-metrics {
   grid-template-columns:
     repeat(2, minmax(0, 1.05fr))
@@ -838,7 +830,6 @@
   font-size: 11px;
 }
 
-/* Tablet: keep the same exact tracks and let the card become fluid. */
 @media (max-width: 900px) and (min-width: 721px) {
   .programme-detail-option2 {
     width: min(100%, 700px);
@@ -846,11 +837,10 @@
 
   .programme-detail-option2-matrix-wrap.termly
     .programme-detail-option2-matrix {
-    min-width: 540px;
+    min-width: 520px;
   }
 }
 
-/* The dedicated mobile presentation still takes over below 720px. */
 @media (max-width: 720px) {
   .programme-detail-option2 {
     width: 100%;
@@ -858,6 +848,6 @@
   }
 
   .programme-detail-option2-matrix-wrap {
-    display: none;
+    display: none !important;
   }
 }
