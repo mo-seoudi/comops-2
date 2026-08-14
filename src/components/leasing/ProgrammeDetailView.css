@@ -1,6 +1,6 @@
 .programme-detail-option2 {
   width: min(100%, 900px);
-  margin: 10px auto;
+  margin: 10px 0;
   padding: 14px;
   border: 1px solid #e8e8e8;
   border-radius: 14px;
@@ -849,5 +849,23 @@
 
   .programme-detail-option2-matrix-wrap {
     display: none !important;
+  }
+}
+
+
+/* =========================================================
+   LEFT-ALIGNED EXPANDED DETAIL CARD
+   Align the programme detail card with the programme-name
+   column instead of centering it inside the full table row.
+   ========================================================= */
+
+.programme-detail-option2 {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+@media (min-width: 721px) {
+  .programme-detail-option2 {
+    justify-self: start;
   }
 }
