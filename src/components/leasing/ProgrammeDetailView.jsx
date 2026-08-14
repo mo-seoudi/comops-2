@@ -52,6 +52,22 @@ function formatDisplayValue(value) {
   return number === 0 ? "—" : formatCurrency(number);
 }
 
+function formatPeriodValue(value, viewMode) {
+  const number = toNumber(value);
+
+  if (number === 0) {
+    return "—";
+  }
+
+  if (viewMode === "monthly") {
+    return new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 0,
+    }).format(number);
+  }
+
+  return formatCurrency(number);
+}
+
 function normaliseMonth(month) {
   if (!month) return "";
 
@@ -350,9 +366,9 @@ export default function ProgrammeDetailView({
           className="programme-detail-option2-close"
           onClick={onClose}
           aria-label="Close programme details"
+          title="Close"
         >
-          <span>Close</span>
-          <kbd>Esc</kbd>
+          ×
         </button>
       </header>
 
@@ -473,7 +489,10 @@ export default function ProgrammeDetailView({
 
                 {displayedPeriods.map((period) => (
                   <td key={`${measure.key}-${period.period}`}>
-                    {formatDisplayValue(period[measure.key])}
+                    {formatPeriodValue(
+                      period[measure.key],
+                      viewMode
+                    )}
                   </td>
                 ))}
 
@@ -528,8 +547,9 @@ export default function ProgrammeDetailView({
               >
                 <span>{measure.label}</span>
                 <strong>
-                  {formatDisplayValue(
-                    selectedMobilePeriod[measure.key]
+                  {formatPeriodValue(
+                    selectedMobilePeriod[measure.key],
+                    viewMode
                   )}
                 </strong>
               </div>

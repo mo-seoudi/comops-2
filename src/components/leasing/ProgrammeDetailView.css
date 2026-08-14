@@ -1,19 +1,21 @@
 .programme-detail-option2 {
-  width: min(100%, 860px);
+  width: min(100%, 900px);
   margin: 10px auto;
   padding: 14px;
-  border: 1px solid #e5e5e5;
-  border-radius: 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 14px;
   background: #ffffff;
-  box-shadow: 0 8px 26px rgba(15, 23, 42, 0.05);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.03),
+    0 14px 34px rgba(15, 23, 42, 0.055);
 }
 
 .programme-detail-option2-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 14px;
-  margin-bottom: 10px;
+  gap: 16px;
+  margin-bottom: 11px;
 }
 
 .programme-detail-option2-kicker {
@@ -22,7 +24,7 @@
   color: #8b5cf6;
   font-size: 8px;
   font-weight: 750;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 
@@ -31,33 +33,43 @@
   color: #171717;
   font-size: 16px;
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .programme-detail-option2-close {
-  display: inline-flex;
-  min-height: 30px;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 7px 5px 9px;
-  border: 1px solid #e5e5e5;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
   border-radius: 7px;
-  background: #ffffff;
-  color: #525252;
+  background: transparent;
+  color: #a3a3a3;
   font: inherit;
-  font-size: 9px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1;
   cursor: pointer;
+  transition:
+    color 120ms ease,
+    background 120ms ease,
+    border-color 120ms ease;
 }
 
-.programme-detail-option2-close kbd {
-  padding: 2px 4px;
-  border: 1px solid #e5e5e5;
-  border-radius: 4px;
-  background: #f5f5f5;
-  color: #737373;
-  font-family: inherit;
-  font-size: 7px;
+.programme-detail-option2-close:hover {
+  border-color: #eeeeee;
+  background: #f7f7f7;
+  color: #262626;
 }
+
+.programme-detail-option2-close:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 2px;
+}
+
+/* Compact toolbar */
 
 .programme-detail-option2-toolbar {
   display: flex;
@@ -69,12 +81,14 @@
 
 .programme-detail-option2-filters {
   display: grid;
-  grid-template-columns: repeat(2, minmax(150px, 190px));
+  grid-template-columns:
+    repeat(2, minmax(150px, 190px));
   gap: 8px;
 }
 
 .programme-detail-option2-filters label {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: 3px;
 }
@@ -90,60 +104,78 @@
   min-height: 32px;
   padding: 5px 26px 5px 8px;
   border: 1px solid #e5e5e5;
-  border-radius: 6px;
+  border-radius: 7px;
   background: #ffffff;
   color: #262626;
   font: inherit;
   font-size: 9px;
+  outline: none;
+}
+
+.programme-detail-option2-filters select:focus {
+  border-color: #c4b5fd;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.08);
 }
 
 .programme-detail-option2-switch {
   display: inline-flex;
+  flex: 0 0 auto;
   gap: 2px;
-  padding: 2px;
-  border: 1px solid #eeeeee;
-  border-radius: 7px;
-  background: #f5f5f5;
+  padding: 3px;
+  border-radius: 8px;
+  background: #f4f4f5;
 }
 
 .programme-detail-option2-switch button {
-  min-width: 68px;
+  min-width: 70px;
   min-height: 28px;
-  padding: 4px 8px;
+  padding: 4px 9px;
   border: 0;
-  border-radius: 5px;
+  border-radius: 6px;
   background: transparent;
   color: #737373;
   font: inherit;
   font-size: 9px;
-  font-weight: 600;
+  font-weight: 650;
   cursor: pointer;
 }
 
 .programme-detail-option2-switch button.active {
   background: #ffffff;
   color: #171717;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.08),
+    0 0 0 1px rgba(15, 23, 42, 0.03);
 }
+
+/* KPI strip */
 
 .programme-detail-option2-metrics {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns:
+    repeat(2, minmax(0, 1.15fr))
+    repeat(3, minmax(0, 0.9fr));
   gap: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 11px;
 }
 
 .programme-detail-option2-metrics > div {
   min-width: 0;
+  min-height: 56px;
   padding: 8px 9px;
   border: 1px solid #eeeeee;
-  border-radius: 7px;
+  border-radius: 8px;
   background: #fafafa;
 }
 
 .programme-detail-option2-metrics > div.headline {
-  border-color: #ddd6fe;
-  background: #faf9ff;
+  border-color: #e7e1ff;
+  background:
+    linear-gradient(
+      180deg,
+      #fcfbff 0%,
+      #f8f6ff 100%
+    );
 }
 
 .programme-detail-option2-metrics span {
@@ -160,81 +192,151 @@
   color: #171717;
   font-size: 12px;
   font-weight: 700;
+  letter-spacing: -0.01em;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* =========================================================
+   Modern financial matrix
+   No boxed Excel-style grid. Each measure is a horizontal
+   analytics band, and each period reads as a compact value.
+   ========================================================= */
+
 .programme-detail-option2-table-wrap {
   width: 100%;
   overflow-x: auto;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
+  overflow-y: hidden;
+  padding: 5px;
+  border: 1px solid #ededed;
+  border-radius: 11px;
+  background: #fafafa;
+  scrollbar-width: thin;
+  scrollbar-color: #c7c7c7 transparent;
+}
+
+.programme-detail-option2-table-wrap::-webkit-scrollbar {
+  height: 7px;
+}
+
+.programme-detail-option2-table-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.programme-detail-option2-table-wrap::-webkit-scrollbar-thumb {
+  border: 2px solid #fafafa;
+  border-radius: 999px;
+  background: #c7c7c7;
 }
 
 .programme-detail-option2-table {
   width: 100%;
   min-width: 560px;
   border-collapse: separate;
-  border-spacing: 0;
+  border-spacing: 0 4px;
   table-layout: fixed;
   font-size: 9px;
 }
 
 .programme-detail-option2-table-wrap.monthly
-.programme-detail-option2-table {
-  min-width: 1040px;
+  .programme-detail-option2-table {
+  min-width: 980px;
   table-layout: auto;
 }
 
-.programme-detail-option2-table th,
-.programme-detail-option2-table td {
-  padding: 7px 8px;
-  border-right: 1px solid #eeeeee;
-  border-bottom: 1px solid #eeeeee;
+/* Header appears as labels floating above the bands. */
+
+.programme-detail-option2-table thead th {
+  padding: 4px 8px 5px;
+  border: 0;
+  background: transparent;
+  color: #8a8a8a;
+  font-size: 8px;
+  font-weight: 650;
   text-align: center;
   white-space: nowrap;
 }
 
-.programme-detail-option2-table th:last-child,
-.programme-detail-option2-table td:last-child {
-  border-right: 0;
-}
-
-.programme-detail-option2-table tbody tr:last-child th,
-.programme-detail-option2-table tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-.programme-detail-option2-table thead th {
-  background: #fafafa;
-  color: #737373;
-  font-size: 8px;
-  font-weight: 700;
-}
-
-.programme-detail-option2-table th:first-child {
-  width: 24%;
-  background: #ffffff;
-  color: #404040;
+.programme-detail-option2-table thead th:first-child {
+  min-width: 122px;
   text-align: left;
 }
 
-.programme-detail-option2-table thead th:first-child {
-  background: #fafafa;
+/* Each row becomes a modern rounded band. */
+
+.programme-detail-option2-table tbody th,
+.programme-detail-option2-table tbody td {
+  height: 34px;
+  padding: 7px 9px;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+  border-right: 0;
+  border-left: 0;
+  background: #ffffff;
+  color: #525252;
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.programme-detail-option2-table tbody th {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 122px;
+  border-left: 1px solid #eeeeee;
+  border-radius: 8px 0 0 8px;
+  color: #262626;
+  font-size: 9px;
+  font-weight: 650;
+  text-align: left;
+}
+
+.programme-detail-option2-table tbody td:last-child {
+  border-right: 1px solid #eeeeee;
+  border-radius: 0 8px 8px 0;
+}
+
+.programme-detail-option2-table tbody tr:hover th,
+.programme-detail-option2-table tbody tr:hover td {
+  border-color: #e4e4e7;
+  background: #fcfcfc;
 }
 
 .programme-detail-option2-table tr.emphasis th,
 .programme-detail-option2-table tr.emphasis td {
+  border-color: #ebe7fb;
   background: #faf9ff;
-  color: #171717;
+  color: #27272a;
   font-weight: 700;
 }
 
+/*
+ * Total is presented as a subtle summary chip/cell instead of
+ * a spreadsheet-like yellow column.
+ */
 .programme-detail-option2-table td.total {
-  background: #fff9db;
+  background: #f3f4f6;
   color: #171717;
-  font-weight: 700;
+  font-weight: 750;
 }
+
+.programme-detail-option2-table tr.emphasis td.total {
+  background: #ede9fe;
+}
+
+/* Monthly period values are intentionally just numbers.
+   The Total column retains AED through formatDisplayValue(). */
+
+.programme-detail-option2-table-wrap.monthly
+  .programme-detail-option2-table
+  tbody
+  td:not(.total) {
+  color: #525252;
+  font-size: 9px;
+}
+
+/* Mobile alternative */
 
 .programme-detail-option2-mobile {
   display: none;
@@ -247,7 +349,8 @@
   }
 
   .programme-detail-option2-metrics {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -255,17 +358,24 @@
   .programme-detail-option2 {
     width: 100%;
     margin: 0;
-    padding: 10px;
+    padding: 9px;
     border-radius: 9px;
     box-shadow: none;
+  }
+
+  .programme-detail-option2-header {
+    margin-bottom: 8px;
   }
 
   .programme-detail-option2-header h2 {
     font-size: 14px;
   }
 
-  .programme-detail-option2-close span {
-    display: none;
+  .programme-detail-option2-close {
+    width: 26px;
+    height: 26px;
+    flex-basis: 26px;
+    font-size: 18px;
   }
 
   .programme-detail-option2-toolbar {
@@ -275,7 +385,8 @@
   }
 
   .programme-detail-option2-filters {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
   .programme-detail-option2-switch {
@@ -288,12 +399,14 @@
   }
 
   .programme-detail-option2-metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
     gap: 5px;
     margin-bottom: 8px;
   }
 
-  .programme-detail-option2-metrics > div:nth-child(5) {
+  .programme-detail-option2-metrics
+    > div:nth-child(5) {
     grid-column: span 2;
   }
 
@@ -333,17 +446,17 @@
   }
 
   .programme-detail-option2-period-tabs button.active {
-    border-color: #171717;
-    background: #171717;
+    border-color: #18181b;
+    background: #18181b;
     color: #ffffff;
   }
 
   .programme-detail-option2-mobile-card {
     width: 100%;
-    border: 1px solid #e5e5e5;
-    border-radius: 8px;
     overflow: hidden;
-    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 9px;
+    background: #fafafa;
   }
 
   .programme-detail-option2-mobile-title {
@@ -353,8 +466,6 @@
     justify-content: space-between;
     gap: 10px;
     padding: 6px 8px;
-    border-bottom: 1px solid #eeeeee;
-    background: #fafafa;
   }
 
   .programme-detail-option2-mobile-title span {
@@ -371,17 +482,18 @@
 
   .programme-detail-option2-mobile-row {
     display: grid;
-    grid-template-columns: minmax(105px, 135px) max-content;
+    grid-template-columns:
+      minmax(105px, 135px)
+      max-content;
     justify-content: start;
     align-items: center;
     column-gap: 12px;
-    min-height: 29px;
+    min-height: 30px;
+    margin: 0 5px 4px;
     padding: 0 8px;
-    border-bottom: 1px solid #f1f1f1;
-  }
-
-  .programme-detail-option2-mobile-row:last-child {
-    border-bottom: 0;
+    border: 1px solid #eeeeee;
+    border-radius: 7px;
+    background: #ffffff;
   }
 
   .programme-detail-option2-mobile-row span {
@@ -395,9 +507,11 @@
     font-weight: 650;
     text-align: left;
     white-space: nowrap;
+    font-variant-numeric: tabular-nums;
   }
 
   .programme-detail-option2-mobile-row.emphasis {
+    border-color: #ebe7fb;
     background: #faf9ff;
   }
 
@@ -418,7 +532,9 @@
   }
 
   .programme-detail-option2-mobile-row {
-    grid-template-columns: minmax(96px, 122px) max-content;
+    grid-template-columns:
+      minmax(96px, 122px)
+      max-content;
     column-gap: 10px;
   }
 }
