@@ -538,3 +538,132 @@
     column-gap: 10px;
   }
 }
+
+
+/* =========================================================
+   OPTION 2 - COMPACT / ALIGNED MATRIX
+   Explicit column geometry fixes month/term misalignment and
+   keeps the detail card intentionally concise.
+   ========================================================= */
+
+.programme-detail-option2 {
+  width: min(100%, 780px);
+}
+
+/*
+ * Do not let cell content decide column widths.
+ * Header and body now share the same colgroup widths.
+ */
+.programme-detail-option2-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.programme-detail-option2-measure-col {
+  width: 118px;
+}
+
+.programme-detail-option2-total-col {
+  width: 104px;
+}
+
+/* Termly: three compact, equal period columns. */
+.programme-detail-option2-table-wrap:not(.monthly)
+  .programme-detail-option2-period-col {
+  width: 126px;
+}
+
+/* Monthly: fixed equal-width months; scroll only inside the matrix. */
+.programme-detail-option2-table-wrap.monthly
+  .programme-detail-option2-table {
+  width: 882px;
+  min-width: 882px;
+  table-layout: fixed;
+}
+
+.programme-detail-option2-table-wrap.monthly
+  .programme-detail-option2-measure-col {
+  width: 116px;
+}
+
+.programme-detail-option2-table-wrap.monthly
+  .programme-detail-option2-period-col {
+  width: 55px;
+}
+
+.programme-detail-option2-table-wrap.monthly
+  .programme-detail-option2-total-col {
+  width: 106px;
+}
+
+/* Exact same padding/alignment for headings and values. */
+.programme-detail-option2-table thead th,
+.programme-detail-option2-table tbody td {
+  padding-right: 6px;
+  padding-left: 6px;
+  text-align: center;
+}
+
+.programme-detail-option2-table thead th:first-child,
+.programme-detail-option2-table tbody th {
+  padding-right: 8px;
+  padding-left: 9px;
+  text-align: left;
+}
+
+/* Total is a compact summary cell, not a large terminal block. */
+.programme-detail-option2-table td.total {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
+/* Slightly tighter matrix bands. */
+.programme-detail-option2-table tbody th,
+.programme-detail-option2-table tbody td {
+  height: 32px;
+}
+
+/* Make the KPI strip match the narrower card. */
+.programme-detail-option2-metrics {
+  grid-template-columns:
+    repeat(2, minmax(0, 1.08fr))
+    repeat(3, minmax(0, 0.84fr));
+}
+
+.programme-detail-option2-metrics > div {
+  min-height: 52px;
+  padding: 7px 8px;
+}
+
+.programme-detail-option2-metrics strong {
+  font-size: 11px;
+}
+
+/* Normal laptop: preserve concise width, only become fluid when needed. */
+@media (max-width: 900px) and (min-width: 721px) {
+  .programme-detail-option2 {
+    width: min(100%, 720px);
+  }
+
+  .programme-detail-option2-table-wrap:not(.monthly)
+    .programme-detail-option2-period-col {
+    width: 112px;
+  }
+
+  .programme-detail-option2-measure-col {
+    width: 110px;
+  }
+
+  .programme-detail-option2-total-col {
+    width: 98px;
+  }
+}
+
+/* Mobile remains screen-width and uses the dedicated mobile view. */
+@media (max-width: 720px) {
+  .programme-detail-option2 {
+    width: 100%;
+    max-width: none;
+  }
+}

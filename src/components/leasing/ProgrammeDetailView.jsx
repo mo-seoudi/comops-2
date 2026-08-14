@@ -469,6 +469,19 @@ export default function ProgrammeDetailView({
         }
       >
         <table className="programme-detail-option2-table">
+          <colgroup>
+            <col className="programme-detail-option2-measure-col" />
+
+            {displayedPeriods.map((period) => (
+              <col
+                key={`col-${period.period}`}
+                className="programme-detail-option2-period-col"
+              />
+            ))}
+
+            <col className="programme-detail-option2-total-col" />
+          </colgroup>
+
           <thead>
             <tr>
               <th>Measure</th>
